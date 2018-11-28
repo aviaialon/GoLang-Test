@@ -103,5 +103,5 @@ func getOtherSiteId() (int) {
 func getCurrency() (string) {
 	var currency string = getRequestParam("currency", CURRENCY_CODE_CAD);
 
-	return map[bool]string{true: currency, false: CURRENCY_CODE_CAD} [currency == CURRENCY_CODE_USD]
+	return strings.TrimSpace(strings.ToUpper(map[bool]string{true: currency, false: CURRENCY_CODE_CAD} [currency == CURRENCY_CODE_USD]))
 }
