@@ -17,7 +17,7 @@ func main() {
 }
 
 func MultiSiteCreate(w http.ResponseWriter, r *http.Request) {
-	respond(w, request.NewParameterBag(r))
+	respond(w, request.NewFromRequest(r))
 }
 
 func MultiSiteUpdate(w http.ResponseWriter, r *http.Request) {}
