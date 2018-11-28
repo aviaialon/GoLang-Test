@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 	"strconv"
-	"reflect"
+	"utils"
 )
 
 const SITE_ID_JUSTFLY   = 1
@@ -35,7 +35,7 @@ func getSiteId() (_siteId int) {
 		_siteId = SITE_ID_JUSTFLY;
 	}
 
-	exists, _ := inArray(_siteId, []int{SITE_ID_JUSTFLY, SITE_ID_FLIGHTHUB})
+	exists, _ := utils.InArray(_siteId, []int{SITE_ID_JUSTFLY, SITE_ID_FLIGHTHUB})
 	if (exists == false) {
 		_siteId = SITE_ID_JUSTFLY;
 	}
@@ -45,24 +45,4 @@ func getSiteId() (_siteId int) {
 
 func getOtherSiteId() (int) {
 	return map[bool]int{true: SITE_ID_FLIGHTHUB, false: SITE_ID_JUSTFLY} [_siteId == SITE_ID_JUSTFLY]
-}
-
-func inArray(needle interface{}, haystack interface{}) (exists bool, index int) {
-	exists = false
-	index = -1
-
-	switch reflect.TypeOf(haystack).Kind() {
-	case reflect.Slice:
-		s := reflect.ValueOf(haystack)
-
-		for i := 0; i < s.Len(); i++ {
-			if reflect.DeepEqual(needle, s.Index(i).Interface()) == true {
-				index = i
-				exists = true
-				return
-			}
-		}
-	}
-
-	return
 }
