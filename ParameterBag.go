@@ -1,35 +1,36 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"strings"
 	"strconv"
 	"reflect"
-	"github.com/gorilla/mux"
 )
 
 const SITE_ID_JUSTFLY   = 1
 const SITE_ID_FLIGHTHUB = 4
 
 var _request *http.Request
+var _siteId int
 
 type ParameterBag struct {
-	Test			string `Avi`
-	SiteId        	int
-	OtherSiteId    	int
+	SiteId        	int    	`json:"site_id"`
+	OtherSiteId    	int	`json:"other_site_id"`
 }
 
 func NewParameterBag(r *http.Request) *ParameterBag {
 	_request = r
+	_siteId  = getSiteId();
+
 	return &ParameterBag{
-		OtherSiteId: getSiteId(),
-		SiteId: getSiteId(),
+		SiteId: _siteId,
+		OtherSiteId: getOtherSiteId(),
 	}
 }
 
 func getSiteId() (_siteId int) {
-	_siteId, err := strconv.Atoi(mux.Vars(_request)["site_id"]) // Seems like the third argument is not honored? i always get an int64 dafuq??
-log.Print(mux.Vars(_request)["site_id"])
+	_siteId, err := strconv.Atoi(strings.Join(_request.URL.Query()["site_id"], ""))
+
 	if (err != nil || _siteId == 0) {
 		_siteId = SITE_ID_JUSTFLY;
 	}
@@ -40,6 +41,10 @@ log.Print(mux.Vars(_request)["site_id"])
 	}
 
 	return _siteId
+}
+
+func getOtherSiteId() (int) {
+	return map[bool]int{true: SITE_ID_FLIGHTHUB, false: SITE_ID_JUSTFLY} [_siteId == SITE_ID_JUSTFLY]
 }
 
 func inArray(needle interface{}, haystack interface{}) (exists bool, index int) {

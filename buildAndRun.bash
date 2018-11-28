@@ -1,2 +1,4 @@
-rm server; 
-go build ./ && mv go server && ./server
+#!/bin/bash
+
+rm multisite-search;
+go build -o multisite-search && ./multisite-search

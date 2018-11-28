@@ -31,10 +31,10 @@ func main() {
 	//people = append(people, Person{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
 
 	router := mux.NewRouter()
-	router.HandleFunc("/people", GetPeople).Methods("GET")
-	router.HandleFunc("/people/{id}", GetPerson).Methods("GET")
+	router.HandleFunc("/multisite-create", GetPeople).Methods("GET")
+	/*router.HandleFunc("/people/{id}", GetPerson).Methods("GET")
 	router.HandleFunc("/people/{id}", CreatePerson).Methods("POST")
-	router.HandleFunc("/people/{id}", DeletePerson).Methods("DELETE")
+	router.HandleFunc("/people/{id}", DeletePerson).Methods("DELETE")*/
 	log.Print("Started server on port 8000");
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
