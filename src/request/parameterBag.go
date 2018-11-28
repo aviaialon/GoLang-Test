@@ -64,7 +64,7 @@ func getRequestParam(paramName, defaultValue string) (string) {
 		value = defaultValue
 	}
 
-	return fmt.Sprintf("%v", value)
+	return strings.TrimSpace(strings.ToUpper(fmt.Sprintf("%v", value)))
 }
 
 /**
@@ -103,5 +103,5 @@ func getOtherSiteId() (int) {
 func getCurrency() (string) {
 	var currency string = getRequestParam("currency", CURRENCY_CODE_CAD);
 
-	return strings.TrimSpace(strings.ToUpper(map[bool]string{true: currency, false: CURRENCY_CODE_CAD} [currency == CURRENCY_CODE_USD]))
+	return map[bool]string{true: currency, false: CURRENCY_CODE_CAD} [currency == CURRENCY_CODE_USD]
 }
